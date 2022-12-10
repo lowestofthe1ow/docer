@@ -30,9 +30,34 @@ $(document).ready(function() {
   async function getFromDB(type) {
     const querySnapshot = await getDocs(query(collection(db, "users"), where("type", "==", type)));
     querySnapshot.forEach((doc) => {
-      $("#teachers").html(
-        doc.data().first + " " + doc.data().last + "<br />" + $("#teachers").html()
-      )
+      if (type == "student") {
+        $("#teachers").html(
+          "<div style='display:flex; justify-content: flex-start; gap: 10px; align-items: center'>"
+          + "<img src='" + doc.data().avatar + "' style='width: 50px; height: 50px; object-fit: cover; border-radius: 50%;' />"
+          + "<div>"
+          + "<span style='font-size: 24px'>"
+          + doc.data().first + " " + doc.data().last + "</span><br />"
+          + doc.id + "<br />"
+          + doc.data().level
+          + "</div>"
+          + "</div><br />"
+          + $("#teachers").html()
+        )
+      }
+      else {
+        $("#teachers").html(
+          "<div style='display:flex; justify-content: flex-start; gap: 10px; align-items: center'>"
+          + "<img src='" + doc.data().avatar + "' style='width: 50px; height: 50px; object-fit: cover; border-radius: 50%;' />"
+          + "<div>"
+          + "<span style='font-size: 24px'>"
+          + doc.data().first + " " + doc.data().last + "</span><br />"
+          + doc.id + "<br />"
+          + doc.data().specialty
+          + "</div>"
+          + "</div><br />"
+          + $("#teachers").html()
+        )
+      }
     });
   };
 
@@ -46,8 +71,8 @@ $(document).ready(function() {
       }
       else {
         $("#login").css("display", "none");
-        $("#hello").html("Hello, " + docSnap.data().first);
-        $("#loggedinas").html("Logged in as " + id);
+        $("#hello").html("Hello, " + docSnap.data().first + ".");
+        $("#loggedinas").html("Logged in as " + id + ". This website is only a proof-of-concept; refresh to log out.");
         if (docSnap.data().type == "teacher") {
           requestedRegisType = "student";
           $("#registereds").html("Searching for registered students...");
@@ -68,36 +93,45 @@ $(document).ready(function() {
     return firestoreDoc.exists();
   }
 
-  $("#upload").click(async function() {
-    console.log($("#regisType").val())
-    if ($("#fname").val() == "" || $("#lname").val() == "" || $("#pass").val() == "" || $("#pass").val() != $("#confirmpass").val()) {
-      alert("finish the form dumbass")
-    }
-    else if (await matchFromDB($("#email").val()) == true) {
-      alert("o shit email exists")
-    }
-    else {
-      let userObject = {
-        first: $("#fname").val(),
-        last: $("#lname").val(),
-        pass: $("#pass").val(),
-        type: $("#regisType").val(),
-      }
-      if ($("#regisType").val() == "teacher") {
-        userObject.specialty = $("#specialty").val()
-      }
-      uploadToDB(userObject);
-    }
-  });
-
   $("#login_upload").click(async function() {
     if (await matchFromDB($("#login_email").val()) == true) {
       verifyFromDB($("#login_email").val());
     }
-  })
+  });
 
   $("#refresh").click(function() {
     $("#teachers").html("");
     getFromDB(requestedRegisType);
+  });
+
+  $("#upload").click(function() {
+    let avatar_url = $("#url").val() != "" ? $("#url").val() : 'img/avatar.png'
+    $.get(avatar_url)
+    .done(async function() {
+      if ($("#fname").val() == "" || $("#lname").val() == "" || $("#pass").val() == "" || $("#pass").val() != $("#confirmpass").val()) {
+        alert("finish the form dumbass")
+      }
+      else if (await matchFromDB($("#email").val()) == true) {
+        alert("o shit email exists")
+      }
+      else {
+        let userObject = {
+          first: $("#fname").val(),
+          last: $("#lname").val(),
+          pass: $("#pass").val(),
+          type: $("#regisType").val(),
+          avatar: avatar_url
+        }
+        if ($("#regisType").val() == "teacher") {
+          userObject.specialty = $("#specialty").val()
+        }
+        else {
+          userObject.level = $("#level").val()
+        }
+        uploadToDB(userObject);
+      }
+    }).fail(function() {
+        alert("image failed to load")
+    });
   });
 })

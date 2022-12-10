@@ -5,17 +5,17 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   </head>
-  <body>
-    <h1>Docer</h1>
-    <p>CSS is for nerds!</p>
-    <br />
+  <body style="font-family: Roboto">
+    <img src="img/docer.png" style="width: 300px;" />
+    <p>Will update with CSS soon.</p>
+    <hr />
 
     <a href="index.html"><h3>Home</h3></a>
     <a href="student_regis.html"><h3>Student Registration</h3></a>
     <a href="teacher_regis.html"><h3>Teacher Registration</h3></a>
     <a href="search.html"><h3>Search</h3></a>
 
-    <br />
+    <hr />
 
     <h3>Register</h3>
     <form>
@@ -29,6 +29,16 @@
       <input type="password" id="pass" name="lname"><br />
       <label for="pass">Confirm password:</label><br />
       <input type="password" id="confirmpass" name="lname"><br /><br />
+
+      <label for="pass">Avatar image URL (Leave blank for default):</label><br />
+      <input type="text" id="url" name="url"><br /><br />
+
+      <select id="level" name="level">
+        <option val="Elementary">Elementary</option>
+        <option val="Junior High">Junior High</option>
+        <option val="Senior High">Senior High</option>
+        <option val="College">College</option>
+      </select><br /><br />
       <input type="hidden" id="regisType" value="student">
     </form>
     <button id="upload">Submit</button>

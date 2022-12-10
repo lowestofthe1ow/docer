@@ -5,25 +5,25 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   </head>
-  <body>
-    <h1>Docer</h1>
-    <p>CSS is for nerds!</p>
-    <br />
+  <body style="font-family: Roboto">
+    <img src="img/docer.png" style="width: 300px;" />
+    <p>Will update with CSS soon.</p>
+    <hr />
 
     <a href="index.html"><h3>Home</h3></a>
     <a href="student_regis.html"><h3>Student Registration</h3></a>
     <a href="teacher_regis.html"><h3>Teacher Registration</h3></a>
     <a href="search.html"><h3>Search</h3></a>
 
-    <br />
+    <hr />
 
     <div id="login">
       <h3>Login</h3>
       <form>
         <label for="login_email">Email:</label><br />
-        <input type="text" id="login_email" name="lname"><br />
+        <input type="text" id="login_email" name="lemail"><br />
         <label for="login_pass">Password:</label><br />
-        <input type="password" id="login_pass" name="lname"><br /><br />
+        <input type="password" id="login_pass" name="lpass"><br /><br />
       </form>
       <button id="login_upload">Submit</button>
       <br /><br />
@@ -39,6 +39,7 @@
 
       <h3 id="registereds">Registered Users</h3>
       <button id="refresh">Load</button>
+      <br /><br />
       <div id="teachers">
 
       </div>

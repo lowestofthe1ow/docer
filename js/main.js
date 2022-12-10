@@ -1,8 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getFirestore, collection, setDoc, doc, updateDoc, arrayUnion, onSnapshot, getDoc, increment, arrayRemove, deleteDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { addDoc, setDoc, doc, getDoc, getFirestore, onSnapshot, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 $(document).ready(function() {
-  // TODO: Replace the following with your app's Firebase project configuration
   const firebaseConfig = {
     apiKey: "AIzaSyCbMU35FfyxF_ReNWFidZcGZNisA0v1E18",
     authDomain: "docer-c8dba.firebaseapp.com",
@@ -13,20 +12,78 @@ $(document).ready(function() {
     measurementId: "G-PJ184MCL0L"
   };
 
-  const app = initializeApp(firebaseConfig);
-
   // Initialize Cloud Firestore and get a reference to the service
+  const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  db.collection("users").add({
-      first: "Lorenz",
-      last: "Marqueses",
-      type: 0 // 0: student; 1: teacher
+  async function uploadToDB() {
+    try {
+      const docRef = await setDoc(doc(db, "users", $("#email").val()), {
+        first: $("#fname").val(),
+        last: $("#lname").val(),
+        type: 0,
+        pass: $("#pass").val()
+      });
+      console.log("Document written with ID: ", $("#email").val());
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
+  async function getFromDB() {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => {
+      $("#teachers").html(
+        doc.data().first + " " + doc.data().last + "<br />" + $("#teachers").html()
+      )
+    });
+  };
+
+  async function getOneFromDB(id) {
+    const docRef = doc(db, "users", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      if ($("#login_pass").val() != docSnap.data().pass) {
+        alert("Incorrect password!")
+      }
+      else {
+        $("#login").css("display", "none");
+        $("#hello").html("Hello, " + docSnap.data().first);
+        $("#loggedinas").html("Logged in as " + id);
+        $("#welcome").css("display", "block");
+      }
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+
+  async function matchFromDB(string) {
+    let firestoreDoc = await getDoc(doc(db, "users", string));
+    return firestoreDoc.exists();
+  }
+
+  $("#upload").click(async function() {
+    if ($("#fname").val() == "" || $("#lname").val() == "" || $("#pass").val() == "" || $("#pass").val() != $("#confirmpass").val()) {
+      alert("finish the form dumbass")
+    }
+    else if (await matchFromDB($("#email").val()) == true) {
+      alert("o shit email exists")
+    }
+    else {
+      uploadToDB();
+    }
+  });
+
+  $("#login_upload").click(async function() {
+    if (await matchFromDB($("#login_email").val()) == true) {
+      getOneFromDB($("#login_email").val());
+    }
   })
-  .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-  })
-  .catch((error) => {
-      console.error("Error adding document: ", error);
+
+  $("#refresh").click(function() {
+    $("#teachers").html("");
+    getFromDB();
   });
 })

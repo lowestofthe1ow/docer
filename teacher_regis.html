@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  </head>
+  <body>
+    <h1>Docer</h1>
+    <p>CSS is for nerds!</p>
+    <br />
+
+    <a href="index.html"><h3>Home</h3></a>
+    <a href="student_regis.html"><h3>Student Registration</h3></a>
+    <a href="teacher_regis.html"><h3>Teacher Registration</h3></a>
+    <a href="search.html"><h3>Search</h3></a>
+
+    <br />
+
+    <h3>Register</h3>
+    <form>
+      <label for="fname">First name:</label><br />
+      <input type="text" id="fname" name="fname"><br />
+      <label for="lname">Last name:</label><br />
+      <input type="text" id="lname" name="lname"><br /><br />
+      <label for="email">Email:</label><br />
+      <input type="text" id="email" name="lname"><br /><br />
+      <label for="pass">Password:</label><br />
+      <input type="password" id="pass" name="lname"><br />
+      <label for="pass">Confirm password:</label><br />
+      <input type="password" id="confirmpass" name="lname"><br /><br />
+      <label for="pass">Confirm password:</label><br /><br />
+      <select id="specialty" name="specialty">
+        <option val="math">Math</option>
+        <option val="english">English</option>
+        <option val="science">Science</option>
+      </select><br /><br />
+      <input type="hidden" id="regisType" value="teacher">
+    </form>
+    <button id="upload">Submit</button>
+
+    <script src="js/main.js" type="module"></script>
+  </body>
+</html>

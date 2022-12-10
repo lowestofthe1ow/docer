@@ -12,26 +12,23 @@ $(document).ready(function() {
     measurementId: "G-PJ184MCL0L"
   };
 
+  var requestedRegisType = "student";
+
   // Initialize Cloud Firestore and get a reference to the service
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  async function uploadToDB() {
+  async function uploadToDB(userObject) {
     try {
-      const docRef = await setDoc(doc(db, "users", $("#email").val()), {
-        first: $("#fname").val(),
-        last: $("#lname").val(),
-        type: 0,
-        pass: $("#pass").val()
-      });
+      const docRef = await setDoc(doc(db, "users", $("#email").val()), userObject);
       console.log("Document written with ID: ", $("#email").val());
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
 
-  async function getFromDB() {
-    const querySnapshot = await getDocs(collection(db, "users"));
+  async function getFromDB(type) {
+    const querySnapshot = await getDocs(query(collection(db, "users"), where("type", "==", type)));
     querySnapshot.forEach((doc) => {
       $("#teachers").html(
         doc.data().first + " " + doc.data().last + "<br />" + $("#teachers").html()
@@ -39,7 +36,7 @@ $(document).ready(function() {
     });
   };
 
-  async function getOneFromDB(id) {
+  async function verifyFromDB(id) {
     const docRef = doc(db, "users", id);
     const docSnap = await getDoc(docRef);
 
@@ -51,12 +48,19 @@ $(document).ready(function() {
         $("#login").css("display", "none");
         $("#hello").html("Hello, " + docSnap.data().first);
         $("#loggedinas").html("Logged in as " + id);
+        if (docSnap.data().type == "teacher") {
+          requestedRegisType = "student";
+          $("#registereds").html("Searching for registered students...");
+        }
+        else {
+          requestedRegisType = "teacher"
+          $("#registereds").html("Searching for registered teachers");
+        }
         $("#welcome").css("display", "block");
-      }
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
+        $("#results").css("display", "block");
+        $("#refresh").click();
+      };
+    };
   }
 
   async function matchFromDB(string) {
@@ -65,6 +69,7 @@ $(document).ready(function() {
   }
 
   $("#upload").click(async function() {
+    console.log($("#regisType").val())
     if ($("#fname").val() == "" || $("#lname").val() == "" || $("#pass").val() == "" || $("#pass").val() != $("#confirmpass").val()) {
       alert("finish the form dumbass")
     }
@@ -72,18 +77,27 @@ $(document).ready(function() {
       alert("o shit email exists")
     }
     else {
-      uploadToDB();
+      let userObject = {
+        first: $("#fname").val(),
+        last: $("#lname").val(),
+        pass: $("#pass").val(),
+        type: $("#regisType").val(),
+      }
+      if ($("#regisType").val() == "teacher") {
+        userObject.specialty = $("#specialty").val()
+      }
+      uploadToDB(userObject);
     }
   });
 
   $("#login_upload").click(async function() {
     if (await matchFromDB($("#login_email").val()) == true) {
-      getOneFromDB($("#login_email").val());
+      verifyFromDB($("#login_email").val());
     }
   })
 
   $("#refresh").click(function() {
     $("#teachers").html("");
-    getFromDB();
+    getFromDB(requestedRegisType);
   });
 })

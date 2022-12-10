@@ -109,10 +109,10 @@ $(document).ready(function() {
     $.get(avatar_url)
     .done(async function() {
       if ($("#fname").val() == "" || $("#lname").val() == "" || $("#pass").val() == "" || $("#pass").val() != $("#confirmpass").val()) {
-        alert("finish the form dumbass")
+        alert("Error processing registration. Forms might be incomplete or passwords might not match.")
       }
       else if (await matchFromDB($("#email").val()) == true) {
-        alert("o shit email exists")
+        alert("That email has already been registered.")
       }
       else {
         let userObject = {
@@ -131,7 +131,7 @@ $(document).ready(function() {
         uploadToDB(userObject);
       }
     }).fail(function() {
-        alert("image failed to load")
+        alert("Image failed to load.")
     });
   });
 })

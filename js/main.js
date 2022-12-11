@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { addDoc, setDoc, doc, getDoc, getFirestore, onSnapshot, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { arrayUnion, arrayRemove, addDoc, setDoc, doc, getDoc, getFirestore, onSnapshot, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 $(document).ready(function() {
   const firebaseConfig = {
@@ -13,6 +13,7 @@ $(document).ready(function() {
   };
 
   var requestedRegisType = "student";
+  var logged_in_id = "";
 
   // Initialize Cloud Firestore and get a reference to the service
   const app = initializeApp(firebaseConfig);
@@ -28,38 +29,63 @@ $(document).ready(function() {
   };
 
   async function getFromDB(type) {
-    const querySnapshot = await getDocs(query(collection(db, "users"), where("type", "==", type)));
-    querySnapshot.forEach((doc) => {
-      if (type == "student") {
-        $("#teachers").html(
-          "<div style='display:flex; justify-content: flex-start; gap: 10px; align-items: center'>"
-          + "<img src='" + doc.data().avatar + "' style='width: 50px; height: 50px; object-fit: cover; border-radius: 50%;' />"
-          + "<div>"
-          + "<span style='font-size: 24px'>"
-          + doc.data().first + " " + doc.data().last + "</span><br />"
-          + doc.id + "<br />"
-          + doc.data().level
-          + "</div>"
-          + "</div><br />"
-          + $("#teachers").html()
-        )
-      }
-      else {
-        $("#teachers").html(
-          "<div style='display:flex; justify-content: flex-start; gap: 10px; align-items: center'>"
-          + "<img src='" + doc.data().avatar + "' style='width: 50px; height: 50px; object-fit: cover; border-radius: 50%;' />"
-          + "<div>"
-          + "<span style='font-size: 24px'>"
-          + doc.data().first + " " + doc.data().last + "</span><br />"
-          + doc.id + "<br />"
-          + doc.data().specialty
-          + "</div>"
-          + "</div><br />"
-          + $("#teachers").html()
-        )
-      }
-    });
+    if (type == "teacher") {
+      let querySnapshot = await getDocs(query(collection(db, "users"), where("type", "==", type)));
+      querySnapshot.forEach((doc) => {
+        if (doc.data().students == null || doc.data().students.includes(logged_in_id) == false) {
+          createNewSearchResult(doc, type)
+        }
+      });
+    }
+    else {
+      let docSnap = await getDoc(doc(db, "users", logged_in_id));
+      if (docSnap.exists()) {
+        let requestCounter = $("<p>", {
+          html: "You have " + String(docSnap.data().requests.length) + " request(s)."
+        })
+        $("#requestCounter").append(requestCounter);
+        docSnap.data().requests.forEach(async function(doc_id) {
+          let docReq = await getDoc(doc(db, "users", doc_id));
+          if (docReq.exists()) {
+            createNewSearchResult(docReq, type);
+          };
+        });
+      };
+    };
   };
+
+  function createNewSearchResult(doc, type) {
+    let subheading = type == "student" ? doc.data().level : doc.data().specialty;
+    let container_div = $("<div>", {
+      id: doc.id,
+      style: "display:flex; justify-content: flex-start; gap: 10px; align-items: center"
+    });
+    let avatar_image = $("<img>", {
+      src: doc.data().avatar,
+      style: "width: 50px; height: 50px; object-fit: cover; border-radius: 50%;"
+    })
+    let text_container = $("<div>")
+    let name = $("<span>", {
+      style: "font-size: 24px",
+      html: doc.data().first + " " + doc.data().last + "<br />"
+    })
+    let subheading_span = $("<span>", {
+      html: doc.id + "<br />" + subheading
+    })
+    let requestButton = $("<button>", {
+      html: type == "student" ? "Accept" : "Request",
+      id: doc.data().first,
+      class: type == "student" ? "acceptButton" : "requestButton"
+    })
+
+    $("#teachers").append(container_div);
+    container_div.append(requestButton);
+    container_div.append(avatar_image);
+    container_div.append(text_container);
+    text_container.append(name);
+    text_container.append(subheading_span);
+    $("#teachers").append($("<br>"));
+  }
 
   async function verifyFromDB(id) {
     const docRef = doc(db, "users", id);
@@ -70,6 +96,7 @@ $(document).ready(function() {
         alert("Incorrect password!")
       }
       else {
+        logged_in_id = id;
         $("#login").css("display", "none");
         $("#hello").html("Hello, " + docSnap.data().first + ".");
         $("#loggedinas").html("Logged in as " + id + ". This website is only a proof-of-concept; refresh to log out.");
@@ -103,6 +130,30 @@ $(document).ready(function() {
     $("#teachers").html("");
     getFromDB(requestedRegisType);
   });
+
+  $("#teachers").on("click", ".requestButton", async function() {
+    let target_email = $(this).parent().attr("id")
+    if (confirm("Send a request to " + $(this).attr("id") + " (" + target_email + ")?")) {
+      let docRef = doc(db, 'users', target_email);
+      await setDoc(docRef, {requests: arrayUnion(logged_in_id)}, {merge: true});
+      alert("Request sent!")
+    }
+  })
+
+  $("#teachers").on("click", ".acceptButton", async function() {
+    let target_email = $(this).parent().attr("id")
+    if (confirm("Accept request from " + $(this).attr("id") + " (" + target_email + ")?")) {
+      let docRef2 = doc(db, 'users', target_email);
+      await setDoc(docRef2, {teachers: arrayUnion(logged_in_id)}, {merge: true});
+
+      let docRef = doc(db, 'users', logged_in_id);
+      await setDoc(docRef, {requests: arrayRemove(target_email)}, {merge: true});
+      await setDoc(docRef, {students: arrayUnion(target_email)}, {merge: true});
+      alert("Request accepted!")
+      $("#requestCounter").html("");
+      $("#refresh").click();
+    }
+  })
 
   $("#upload").click(function() {
     let avatar_url = $("#url").val() != "" ? $("#url").val() : 'img/avatar.png'

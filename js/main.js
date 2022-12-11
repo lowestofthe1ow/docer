@@ -107,32 +107,26 @@ $(document).ready(function() {
     const docRef = doc(db, "users", id);
     const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      if ($("#login_pass").val() != docSnap.data().pass) {
-        alert("Incorrect password!")
-        $("#login_upload").prop("disabled", false);
-      }
-      else {
-        logged_in_id = id;
-        $("#login").css("display", "none");
-        $("#hello").html("Hello, " + docSnap.data().first + ".");
-        $("#loggedinas").html("Logged in as " + id + ". This website is only a proof-of-concept; refresh to log out.");
-        if (docSnap.data().type == "teacher") {
-          requestedRegisType = "student";
-          $("#registereds").html("Searching for registered students...");
-        }
-        else {
-          requestedRegisType = "teacher"
-          $("#registereds").html("Searching for registered teachers");
-        }
-        $("#welcome").css("display", "block");
-        $("#results").css("display", "block");
-        $("#refresh").click();
-      };
+    if ($("#login_pass").val() != docSnap.data().pass) {
+      alert("Incorrect password!")
+      $("#login_upload").prop("disabled", false);
     }
     else {
-      alert("Email does not exist!")
-      $("#login_upload").prop("disabled", false);
+      logged_in_id = id;
+      $("#login").css("display", "none");
+      $("#hello").html("Hello, " + docSnap.data().first + ".");
+      $("#loggedinas").html("Logged in as " + id + ". This website is only a proof-of-concept; refresh to log out.");
+      if (docSnap.data().type == "teacher") {
+        requestedRegisType = "student";
+        $("#registereds").html("Searching for registered students...");
+      }
+      else {
+        requestedRegisType = "teacher"
+        $("#registereds").html("Searching for registered teachers");
+      }
+      $("#welcome").css("display", "block");
+      $("#results").css("display", "block");
+      $("#refresh").click();
     };
   }
 
@@ -146,6 +140,10 @@ $(document).ready(function() {
     if (await matchFromDB($("#login_email").val()) == true) {
       verifyFromDB($("#login_email").val());
     }
+    else {
+      alert("Email does not exist!")
+      $("#login_upload").prop("disabled", false);
+    };
   });
 
   $("#refresh").click(function() {

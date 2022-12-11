@@ -129,6 +129,10 @@ $(document).ready(function() {
         $("#results").css("display", "block");
         $("#refresh").click();
       };
+    }
+    else {
+      alert("Email does not exist!")
+      $("#login_upload").prop("disabled", false);
     };
   }
 

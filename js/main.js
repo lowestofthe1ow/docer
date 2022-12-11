@@ -77,9 +77,11 @@ $(document).ready(function() {
       src: doc.data().avatar,
       style: "width: 50px; height: 50px; object-fit: cover; border-radius: 50%;"
     })
-    let text_container = $("<div>")
+    let text_container = $("<div>", {
+      style: "text-align: left;"
+    })
     let name = $("<span>", {
-      style: "font-size: 24px",
+      style: "font-size: 24px; text-align: left;",
       html: doc.data().first + " " + doc.data().last + "<br />"
     })
     let subheading_span = $("<span>", {
@@ -114,8 +116,9 @@ $(document).ready(function() {
     else {
       logged_in_id = id;
       $("#login").css("display", "none");
+      $("#logged_in_avatar").attr("src", docSnap.data().avatar)
       $("#hello").html("Hello, " + docSnap.data().first + ".");
-      $("#loggedinas").html("Logged in as " + id + ". This website is only a proof-of-concept; refresh to log out.");
+      $("#loggedinas").html("Logged in as " + id + ".<br />This website is only a proof-of-concept; refresh to log out.");
       if (docSnap.data().type == "teacher") {
         requestedRegisType = "student";
         $("#registereds").html("Searching for registered students...");

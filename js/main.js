@@ -80,9 +80,9 @@ $(document).ready(function() {
     let text_container = $("<div>", {
       style: "text-align: left;"
     })
-    let name = $("<span>", {
-      style: "font-size: 24px; text-align: left;",
-      html: doc.data().first + " " + doc.data().last + "<br />"
+    let name = $("<h3>", {
+      style: " text-align: left;",
+      html: doc.data().first + " " + doc.data().last
     })
     let subheading_span = $("<span>", {
       html: doc.id + "<br />" + subheading
@@ -139,14 +139,15 @@ $(document).ready(function() {
   }
 
   $("#login_upload").click(async function() {
-    $("#login_upload").prop("disabled", true);
-    if (await matchFromDB($("#login_email").val()) == true) {
-      verifyFromDB($("#login_email").val());
-    }
-    else {
-      alert("Email does not exist!")
-      $("#login_upload").prop("disabled", false);
-    };
+    if ($("#login_email").val().replace(/\s/g,'') != "")
+      $("#login_upload").prop("disabled", true);
+      if (await matchFromDB($("#login_email").val()) == true) {
+        verifyFromDB($("#login_email").val());
+      }
+      else {
+        alert("Email does not exist!")
+        $("#login_upload").prop("disabled", false);
+      };
   });
 
   $("#refresh").click(function() {
@@ -187,7 +188,7 @@ $(document).ready(function() {
 
   $("#upload").click(function() {
     $("#upload").prop("disabled", true);
-    let avatar_url = $("#url").val() != "" ? $("#url").val() : 'img/avatar.png'
+    let avatar_url = $("#url").val().replace(/\s/g,'') != "" ? $("#url").val().replace(/\s/g,'') : 'img/avatar.png'
     $.get(avatar_url)
     .done(async function() {
       if ($("#fname").val() == "" || $("#lname").val() == "" || $("#pass").val() == "" || $("#pass").val() != $("#confirmpass").val()) {

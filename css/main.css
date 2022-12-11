@@ -20,7 +20,7 @@ input, select {
 }
 
 .section {
-  background-color: #FBFBFB;
+  background-color: #F5F5F5;
   max-width: 600px;
   width: auto;
   border-radius: 20px;
@@ -33,28 +33,20 @@ h3 {
   margin: 0;
 }
 
-a {
+a, button {
   color: #000000;
-  background-color: #FBFBFB;
+  background-color: #FFFFFF;
   text-decoration: none;
   padding: 10px;
+  border: none;
+  font-weight: 700;
   border-radius: 20px;
   border-bottom: 2px solid #999;
 }
 
-button {
-  background-color: #222;
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  padding: 10px;
-}
-
-button:disabled {
-  background-color: #DDD;
-  color: #000;
-}
-
-button:hover {
+a:hover, button:hover, button:disabled {
+  border-bottom: none;
+  background-color: #F8F8F8;
+  border-top: 2px solid #999;
   cursor: pointer;
 }

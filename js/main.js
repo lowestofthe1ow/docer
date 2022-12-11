@@ -202,6 +202,7 @@ $(document).ready(function() {
         if ($("#regisType").val() == "teacher") {
           userObject.specialty = $("#specialty").val();
           userObject.students = [];
+          userObject.requests = [];
         }
         else {
           userObject.level = $("#level").val()

@@ -1,23 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+
 body {
-  font-family: "Roboto";
+  font-family: "Montserrat";
   background-color: #DDD;
   text-align: center;
   display: flex;
   justify-content: center;
 }
 
+input, select {
+  background-color: #E9E9E9;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  border-top: 2px solid #999;
+  width: auto;
+  min-width: 300px;
+}
+
 .section {
-  background-color: #F5F5F5;
+  background-color: #FBFBFB;
   max-width: 600px;
-  width: 100%;
+  width: auto;
   border-radius: 20px;
   padding: 20px;
   text-align: center;
+  border-bottom: 2px solid #999;
+}
+
+h3 {
+  margin: 0;
 }
 
 a {
   color: #000000;
+  background-color: #FBFBFB;
   text-decoration: none;
+  padding: 10px;
+  border-radius: 20px;
+  border-bottom: 2px solid #999;
 }
 
 button {

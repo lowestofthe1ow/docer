@@ -157,8 +157,14 @@ $(document).ready(function() {
     let target_email = $(this).parent().attr("id")
     if (confirm("Send a request to " + $(this).attr("id") + " (" + target_email + ")?")) {
       let docRef = doc(db, 'users', target_email);
-      await setDoc(docRef, {requests: arrayUnion(logged_in_id)}, {merge: true});
-      alert("Request sent!")
+      let docSnap = await getDoc(docRef);
+      if (docSnap.data().requests.includes(logged_in_id)) {
+        alert("You have already sent a request to this instructor before.");
+      }
+      else {
+        await setDoc(docRef, {requests: arrayUnion(logged_in_id)}, {merge: true});
+        alert("Request sent!")
+      }
     }
   })
 

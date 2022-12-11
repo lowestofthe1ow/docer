@@ -196,10 +196,12 @@ $(document).ready(function() {
           avatar: avatar_url
         }
         if ($("#regisType").val() == "teacher") {
-          userObject.specialty = $("#specialty").val()
+          userObject.specialty = $("#specialty").val();
+          userObject.students = [];
         }
         else {
           userObject.level = $("#level").val()
+          userObject.teachers = [];
         }
         uploadToDB(userObject);
       }

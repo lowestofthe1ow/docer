@@ -36,7 +36,8 @@ $(document).ready(function() {
       let querySnapshot = await getDocs(query(collection(db, "users"), where("type", "==", type)));
       let partnerCounter = $("<p>", {
         html: "You currently have " + String(docSnap.data().teachers.length) + " teacher(s):<br />" + docSnap.data().teachers.join("<br />")
-      })
+      });
+      partnerCounter.css("font-weight", 700);
       $("#partnerCounter").append(partnerCounter);
       querySnapshot.forEach((doc) => {
         if (doc.data().students == null || doc.data().students.includes(logged_in_id) == false) {
@@ -49,13 +50,15 @@ $(document).ready(function() {
     }
     else {
       let partnerCounter = $("<p>", {
-        html: "You currently have " + String(docSnap.data().students.length) + " student(s)<br />" + docSnap.data().students.join("<br />")
+        html: "You currently have " + String(docSnap.data().students.length) + " student(s):<br />" + docSnap.data().students.join("<br />"),
       })
+      partnerCounter.css("font-weight", 700);
       $("#partnerCounter").append(partnerCounter);
       if (docSnap.exists()) {
         let requestCounter = $("<p>", {
           html: "You have " + String(docSnap.data().requests.length) + " request(s)."
         })
+        $("#requestCounter").append("<br>");
         $("#requestCounter").append(requestCounter);
         docSnap.data().requests.forEach(async function(doc_id) {
           let docReq = await getDoc(doc(db, "users", doc_id));

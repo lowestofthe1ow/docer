@@ -10,7 +10,7 @@
   </head>
   <body>
     <div id="particles-js">
-      <div style="position: absolute; z-index: 1;">
+      <div style="position: absolute; z-index: 1; margin: 0;">
         <div class="section" style="background-color: rgba(0,0,0,0); padding-bottom: 0; margin: 0;">
           <img src="img/docer.png" style="width: 300px;" />
           <p style="color: #FFFFFF">Discover endless opportunities with one tap.</p>
@@ -25,27 +25,33 @@
 
         <div class="section">
           <h3>Register as a Teacher</h3>
+          <div style="text-align: center; display: flex; justify-content: center">
+            <p style="max-width: 350px;">Teachers shall undergo extensive verification processes in the production version of the application.</p>
+          </div>
           <br />
           <form>
-            <label for="fname">First name:</label><br />
-            <input type="text" id="fname" name="fname"><br />
-            <label for="lname">Last name:</label><br />
-            <input type="text" id="lname" name="lname"><br /><br />
-            <label for="email">Email:</label><br />
-            <input type="text" id="email" name="lname"><br /><br />
-            <label for="pass">Password:</label><br />
-            <input type="password" id="pass" name="lname"><br />
-            <label for="pass">Confirm password:</label><br />
-            <input type="password" id="confirmpass" name="lname"><br /><br />
-
-            <label for="pass">Avatar image URL (Leave blank for default):</label><br />
-            <input type="text" id="url" name="url"><br /><br />
+            <input type="text" placeholder="First name" id="fname" name="fname"><br />
+            <input type="text" placeholder="Last name" id="lname" name="lname"><br /><br />
+            <input type="text" placeholder="Email" id="email" name="lname"><br /><br />
+            <input type="password" placeholder="Password" id="pass" name="lname"><br />
+            <input type="password" placeholder="Confirm password" id="confirmpass" name="lname"><br /><br />
+            <input type="text" placeholder="Profile picture URL" id="url" name="url"><br /><br />
 
             <select id="specialty" name="specialty">
               <option val="math">Math</option>
               <option val="english">English</option>
               <option val="science">Science</option>
             </select><br /><br />
+
+            <div style="display: flex; justify-content: flex-start; gap: 10px; align-items: center; flex-wrap: nowrap; padding: 10px;">
+              <div style="width: 20px; padding: 0; margin: 0">
+                <input type="checkbox" id="datapriv" name="datapriv" style="width: 20px; margin: 0;">
+              </div>
+              <div style="padding: 0; margin: 0; text-align: left; max-width: 300px;"><label for="datapriv" style="text-align: left">I consent to the processing of my personal data in accordance with the Data Privacy Act of 2012.</label></div>
+            </div>
+
+            <br />
+
             <input type="hidden" id="regisType" value="teacher">
           </form>
           <button id="upload">Submit</button>
@@ -55,7 +61,7 @@
           <p style="color:#FFF; line-height: 24px; width: 300px;">
             Docer. <span style="font-weight: 700">Mapu&#769;a University</span>
             <br />
-            658 Muralla St., Intramuros, Manila 1002,<br />Philippines<br />(+63) 999 929 4437
+            658 Muralla St., Intramuros, Manila 1002,<br />Philippines<br />+63 999 929 4437
           </p>
         </div>
         <br />

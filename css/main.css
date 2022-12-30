@@ -41,12 +41,12 @@ input[type="text"], input[type="password"], select {
   margin-right: 10px;
 }
 
-h3, p {
+h3, p, label {
   margin: 0;
   line-height: 30px;
 }
 
-p {
+p, label {
   font-size: 15px;
 }
 

@@ -1,36 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 body {
-  font-family: "Montserrat";
-  background-color: #DDD;
-  text-align: center;
+  font-family: "Inter";
+  background-image: linear-gradient(#228899, #882299);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#particles-js {
+  width:100%;
+  height:100%;
+  z-index: 0;
+  position: absolute;
   display: flex;
+  text-align: center;
   justify-content: center;
 }
 
 input, select {
-  background-color: #E9E9E9;
+  background-color: #FFF;
   padding: 10px;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   margin: 5px;
-  border-top: 2px solid #999;
   width: auto;
   min-width: 300px;
 }
 
 .section {
-  background-color: #F5F5F5;
+  background-color: #F2F2F2;
   max-width: 600px;
   width: auto;
-  border-radius: 20px;
+  border-radius: 5px;
   padding: 20px;
   text-align: center;
-  border-bottom: 2px solid #999;
 }
 
-h3 {
+h3, p {
   margin: 0;
+  line-height: 30px;
+}
+
+p {
+  font-size: 15px;
 }
 
 a, button {
@@ -40,13 +53,16 @@ a, button {
   padding: 10px;
   border: none;
   font-weight: 700;
-  border-radius: 20px;
-  border-bottom: 2px solid #999;
+  border-radius: 5px;
+}
+
+a {
+  border-radius: 5px;
+  background-color: #FFFFFF;
 }
 
 a:hover, button:hover, button:disabled {
-  border-bottom: none;
+  border-top: none;
   background-color: #F8F8F8;
-  border-top: 2px solid #999;
   cursor: pointer;
 }

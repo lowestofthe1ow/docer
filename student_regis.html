@@ -9,49 +9,68 @@
     <title>Docer Interactive Demo</title>
   </head>
   <body>
-    <div>
-      <div class="section">
-        <img src="img/docer.png" style="width: 300px;" />
-        <p>Discover endless opportunities with one tap.</p>
-      </div>
+    <div id="particles-js">
+      <div style="position: absolute; z-index: 1;">
+        <div class="section" style="background-color: rgba(0,0,0,0); padding-bottom: 0; margin: 0;">
+          <img src="img/docer.png" style="width: 300px;" />
+          <p style="color: #FFFFFF">Discover endless opportunities with one tap.</p>
+        </div>
 
-      <div class="section" style="background-color: #DDD; border: none; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap">
-        <a href="index.html"><h3>Home</h3></a>
-        <a href="student_regis.html"><h3>Students</h3></a>
-        <a href="teacher_regis.html"><h3>Teachers</h3></a>
-        <a href="search.html"><h3>Sign in</h3></a>
-      </div>
+        <div class="section" style="background-color: rgba(0,0,0,0); border: none; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <a href="index.html"><p>Home</p></a>
+          <a href="student_regis.html"><p>Students</p></a>
+          <a href="teacher_regis.html"><p>Teachers</p></a>
+          <a href="search.html"><p>Sign in</p></a>
+        </div>
 
-      <div class="section">
-        <h3>Register as a Student</h3>
+        <div class="section">
+          <h3>Register as a Student</h3>
+          <br />
+          <form>
+            <label for="fname">First name:</label><br />
+            <input type="text" id="fname" name="fname"><br />
+            <label for="lname">Last name:</label><br />
+            <input type="text" id="lname" name="lname"><br /><br />
+            <label for="email">Email:</label><br />
+            <input type="text" id="email" name="lname"><br /><br />
+            <label for="pass">Password:</label><br />
+            <input type="password" id="pass" name="lname"><br />
+            <label for="pass">Confirm password:</label><br />
+            <input type="password" id="confirmpass" name="lname"><br /><br />
+
+            <label for="pass">Avatar image URL (Leave blank for default):</label><br />
+            <input type="text" id="url" name="url"><br /><br />
+
+            <select id="level" name="level">
+              <option val="Elementary">Elementary</option>
+              <option val="Junior High">Junior High</option>
+              <option val="Senior High">Senior High</option>
+              <option val="College">College</option>
+            </select><br /><br />
+            <input type="hidden" id="regisType" value="student">
+          </form>
+          <button id="upload">Submit</button>
+        </div>
         <br />
-        <form>
-          <label for="fname">First name:</label><br />
-          <input type="text" id="fname" name="fname"><br />
-          <label for="lname">Last name:</label><br />
-          <input type="text" id="lname" name="lname"><br /><br />
-          <label for="email">Email:</label><br />
-          <input type="text" id="email" name="lname"><br /><br />
-          <label for="pass">Password:</label><br />
-          <input type="password" id="pass" name="lname"><br />
-          <label for="pass">Confirm password:</label><br />
-          <input type="password" id="confirmpass" name="lname"><br /><br />
-
-          <label for="pass">Avatar image URL (Leave blank for default):</label><br />
-          <input type="text" id="url" name="url"><br /><br />
-
-          <select id="level" name="level">
-            <option val="Elementary">Elementary</option>
-            <option val="Junior High">Junior High</option>
-            <option val="Senior High">Senior High</option>
-            <option val="College">College</option>
-          </select><br /><br />
-          <input type="hidden" id="regisType" value="student">
-        </form>
-        <button id="upload">Submit</button>
+        <div style="display:flex; justify-content: center;">
+          <p style="color:#FFF; line-height: 24px; width: 300px;">
+            Docer. <span style="font-weight: 700">Mapu&#769;a University</span>
+            <br />
+            658 Muralla St., Intramuros, Manila 1002,<br />Philippines<br />(+63) 999 929 4437
+          </p>
+        </div>
+        <br />
       </div>
     </div>
 
     <script src="js/main.js" type="module"></script>
+    <script src="js/particles.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        particlesJS.load('particles-js', 'js/particles.json', function() {
+          console.log('callback - particles.js config loaded');
+        });
+      })
+    </script>
   </body>
 </html>

@@ -35,10 +35,51 @@ $(document).ready(function() {
     if (type == "teacher") {
       let querySnapshot = await getDocs(query(collection(db, "users"), where("type", "==", type)));
       let partnerCounter = $("<p>", {
-        html: "You currently have " + String(docSnap.data().teachers.length) + " teacher(s):<br />" + docSnap.data().teachers.join("<br />")
+        html: "You currently have " + String(docSnap.data().teachers.length) + " teacher(s):<br />"
       });
       partnerCounter.css("font-weight", 700);
       $("#partnerCounter").append(partnerCounter);
+      $("#partnerCounter").append($("<br>"));
+
+      docSnap.data().teachers.forEach(async function(email, index) {
+        let teacherIdCurrent = docSnap.data().teachers[index];
+        let docSnap2 = await getDoc(doc(db, "users", teacherIdCurrent));
+        let subheading = docSnap2.data().specialty;
+        let nameContainer = $("<div>", {
+          id: teacherIdCurrent,
+          style: "display:flex; justify-content: flex-start; gap: 10px; align-items: center"
+        });
+        let avatar_image = $("<img>", {
+          src: docSnap2.data().avatar,
+          style: "width: 50px; height: 50px; object-fit: cover; border-radius: 50%;"
+        })
+        let text_container = $("<div>", {
+          style: "text-align: left;"
+        })
+        let name = $("<h3>", {
+          style: " text-align: left;",
+          html: docSnap2.data().first + " " + docSnap2.data().last
+        })
+        let subheading_span = $("<span>", {
+          html: teacherIdCurrent + "<br />" + subheading
+        })
+
+        /*nameContainer.append($("<button>", {
+          html: "Chat",
+          style: "margin-right: 10px;",
+          id: teacherIdCurrent,
+          class: "msgRequestButton"
+        }))*/
+
+        nameContainer.append(avatar_image);
+        text_container.append(name);
+        text_container.append(subheading_span);
+        nameContainer.append(text_container);
+
+        $("#partnerCounter").append(nameContainer);
+        $("#partnerCounter").append($("<br>"));
+      })
+
       querySnapshot.forEach((doc) => {
         if (doc.data().students == null || doc.data().students.includes(logged_in_id) == false) {
           createNewSearchResult(doc, type, "#teachers", true)
@@ -50,10 +91,52 @@ $(document).ready(function() {
     }
     else {
       let partnerCounter = $("<p>", {
-        html: "You currently have " + String(docSnap.data().students.length) + " student(s):<br />" + docSnap.data().students.join("<br />"),
+        html: "You currently have " + String(docSnap.data().students.length) + " student(s):<br />"
       })
       partnerCounter.css("font-weight", 700);
       $("#partnerCounter").append(partnerCounter);
+      $("#partnerCounter").append($("<br>"));
+
+      docSnap.data().students.forEach(async function(email, index) {
+        let studentIdCurrent = docSnap.data().students[index];
+        let docSnap2 = await getDoc(doc(db, "users", studentIdCurrent));
+        let subheading = docSnap2.data().level;
+        let nameContainer = $("<div>", {
+          id: studentIdCurrent,
+          style: "display:flex; justify-content: flex-start; gap: 10px; align-items: center"
+        });
+        let avatar_image = $("<img>", {
+          src: docSnap2.data().avatar,
+          style: "width: 50px; height: 50px; object-fit: cover; border-radius: 50%;"
+        })
+        let text_container = $("<div>", {
+          style: "text-align: left;"
+        })
+        let name = $("<h3>", {
+          style: " text-align: left;",
+          html: docSnap2.data().first + " " + docSnap2.data().last
+        })
+        let subheading_span = $("<span>", {
+          html: studentIdCurrent + "<br />" + subheading
+        })
+
+        /*nameContainer.append($("<button>", {
+          html: "Chat",
+          style: "margin-right: 10px;",
+          id: teacherIdCurrent,
+          class: "msgRequestButton"
+        }))*/
+
+        nameContainer.append(avatar_image);
+        text_container.append(name);
+        text_container.append(subheading_span);
+        nameContainer.append(text_container);
+        nameContainer.append($("<br>"));
+
+        $("#partnerCounter").append(nameContainer);
+        $("#partnerCounter").append($("<br>"));
+      })
+
       if (docSnap.exists()) {
         let requestCounter = $("<p>", {
           html: "You have " + String(docSnap.data().requests.length) + " request(s)."
@@ -159,7 +242,38 @@ $(document).ready(function() {
     $("#teachers").html("");
     getFromDB(requestedRegisType);
   });
+  /*
+  $("body").on("click", ".msgRequestButton", async function() {
+    let chatBox = $("<div>", {
+      class: "section"
+    })
 
+    let form = $("<form>", {
+      style: "display: flex;"
+    })
+
+    let msgBox = $("<input>", {
+      type: "text",
+      placeholder: "Type a message..."
+    })
+
+    let msgButton = $("<button>", {
+      html: "Send"
+    })
+
+    form.append(msgBox);
+    form.append(msgButton);
+
+
+    chatBox.append($("<h3>", {
+      html: $(this).next().html()
+    }))
+    chatBox.append(form);
+
+    chatBox.insertAfter("#navBar");
+    $("<br>").insertAfter(chatBox)
+  })
+  */
   $("#teachers").on("click", ".requestButton", async function() {
     let target_email = $(this).parent().attr("id")
     if (confirm("Send a request to " + $(this).attr("id") + " (" + target_email + ")?")) {

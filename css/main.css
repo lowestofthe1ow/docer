@@ -73,15 +73,11 @@ a[class="navLink"] {
   background-color: #FFFFFF;
 }
 
-a[class="navLink"]:hover, button:hover {
-  transform: scale(0.9);
-}
-
-
 a[class="navLink"]:hover, button:hover, button:disabled {
   border-top: none;
   background-color: #F8F8F8;
   cursor: pointer;
+  transform: scale(0.9);
 }
 
 .acceptButton:hover, .requestButton:hover {

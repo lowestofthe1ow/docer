@@ -198,6 +198,10 @@ $(document).ready(function() {
         $("#upload").prop("disabled", false);
         alert("Error processing registration. Forms might be incomplete or passwords might not match.")
       }
+      else if ($("#datapriv").prop("checked") == false) {
+        $("#upload").prop("disabled", false);
+        alert("Docer requires the processing of your personal data for its services. Please tick the checkbox before continuing.")
+      }
       else if (await matchFromDB($("#email").val()) == true) {
         $("#upload").prop("disabled", false);
         alert("That email has already been registered.")

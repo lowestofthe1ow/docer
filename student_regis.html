@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=0.75">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -11,16 +11,16 @@
   <body>
     <div id="particles-js">
       <div style="position: absolute; z-index: 1; margin: 0;">
-        <div class="section" style="background-color: rgba(0,0,0,0); padding-bottom: 0; margin: 0;">
+        <div class="section" style="background-color: rgba(0,0,0,0); padding-bottom: 0;">
           <img src="img/docer.png" style="width: 300px;" />
           <p style="color: #FFFFFF">Discover endless opportunities with one tap.</p>
         </div>
 
         <div class="section" style="background-color: rgba(0,0,0,0); border: none; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <a href="index.html"><p>Home</p></a>
-          <a href="student_regis.html"><p>Students</p></a>
-          <a href="teacher_regis.html"><p>Teachers</p></a>
-          <a href="search.html"><p>Sign in</p></a>
+          <a class="navLink" href="index.html"><p>Home</p></a>
+          <a class="navLink" href="student_regis.html"><p>Students</p></a>
+          <a class="navLink" href="teacher_regis.html"><p>Teachers</p></a>
+          <a class="navLink" href="search.html"><p>Sign in</p></a>
         </div>
 
         <div class="section">
@@ -60,6 +60,7 @@
             Docer. <span style="font-weight: 700">Mapu&#769;a University</span>
             <br />
             658 Muralla St., Intramuros, Manila 1002,<br />Philippines<br />+63 999 929 4437
+            <br /><a href="mailto:lbbmarqueses@mymail.mapua.edu.ph">lbbmarqueses@mymail.mapua.edu.ph</a>
           </p>
         </div>
         <br />

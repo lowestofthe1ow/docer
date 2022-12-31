@@ -7,6 +7,8 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   margin: 0;
+  background-attachment: fixed;
+  height: 100%;
 }
 
 #particles-js {
@@ -28,11 +30,12 @@ input[type="text"], input[type="password"], select {
   margin: 5px;
   width: auto;
   min-width: 250px;
+  font-size: 15px;
 }
 
 .section {
   background-color: #F2F2F2;
-  max-width: 600px;
+  max-width: 420px;
   width: auto;
   border-radius: 5px;
   padding: 20px;
@@ -46,11 +49,11 @@ h3, p, label {
   line-height: 30px;
 }
 
-p, label {
-  font-size: 15px;
+p, label, span {
+  font-size: 16px;
 }
 
-a, button {
+a[class="navLink"], button {
   color: #000000;
   background-color: #FFFFFF;
   text-decoration: none;
@@ -58,14 +61,25 @@ a, button {
   border: none;
   font-weight: 700;
   border-radius: 5px;
+  transition: all 0.2s;
 }
 
 a {
+  text-decoration: underline;
+  color: #FFFFFF;
+}
+
+a[class="navLink"] {
   border-radius: 5px;
   background-color: #FFFFFF;
 }
 
-a:hover, button:hover, button:disabled {
+a[class="navLink"]:hover, button:hover {
+  transform: scale(0.9);
+}
+
+
+a[class="navLink"]:hover, button:hover, button:disabled {
   border-top: none;
   background-color: #F8F8F8;
   cursor: pointer;

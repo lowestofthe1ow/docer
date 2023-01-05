@@ -340,7 +340,7 @@ $(document).ready(function() {
         uploadToDB(userObject);
       }
     }).fail(function() {
-        alert("Image failed to load.")
+        alert("Failed to load profile picture from URL. Leave it blank to use the default profile picture.")
     });
   });
 })
